@@ -1,4 +1,4 @@
-package org.raguram.todo_application.entity;
+package org.raguram.todo_application.model;
 
 public enum Status {
     PENDING, IN_PROGRESS, COMPLETED

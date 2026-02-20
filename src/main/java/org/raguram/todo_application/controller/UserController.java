@@ -1,6 +1,6 @@
 package org.raguram.todo_application.controller;
 
-import org.raguram.todo_application.entity.User;
+import org.raguram.todo_application.model.User;
 import org.raguram.todo_application.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

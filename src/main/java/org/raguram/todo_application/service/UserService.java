@@ -1,7 +1,7 @@
 package org.raguram.todo_application.service;
 
 import org.raguram.todo_application.dao.UserRepository;
-import org.raguram.todo_application.entity.User;
+import org.raguram.todo_application.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -1,4 +1,4 @@
-package org.raguram.todo_application.entity;
+package org.raguram.todo_application.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -27,22 +27,23 @@ public class Task {
     )
     private long id;
 
-    @Column
+    @Column(nullable = false, length = 20)
     private String title;
 
-    @Column
+    @Column(length = 500)
     private String description;
 
-    @Column
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private Status status;
 
-    @Column
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User userData;
+
+    @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
-    @Column
+    @Column(name = "modified_at")
     private LocalDateTime modifiedAt;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private User userData;
 }

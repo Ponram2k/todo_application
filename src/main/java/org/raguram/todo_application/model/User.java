@@ -1,4 +1,4 @@
-package org.raguram.todo_application.entity;
+package org.raguram.todo_application.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -26,13 +26,13 @@ public class User {
     )
     private long id;
 
-    @Column(unique = true,nullable = false)
+    @Column(unique = true,nullable = false,length = 20)
     private String name;
 
     @Column(nullable = false)
-    private long phone_number;
+    private long phoneNumber;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 50)
     private String emailId;
 
     @OneToMany(mappedBy = "userData",cascade = CascadeType.REMOVE)

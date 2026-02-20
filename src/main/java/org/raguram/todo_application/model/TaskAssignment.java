@@ -1,4 +1,4 @@
-package org.raguram.todo_application.entity;
+package org.raguram.todo_application.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
