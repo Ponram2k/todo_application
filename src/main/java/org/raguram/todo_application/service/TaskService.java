@@ -3,9 +3,12 @@ package org.raguram.todo_application.service;
 import org.raguram.todo_application.dao.TaskRepository;
 import org.raguram.todo_application.dao.UserRepository;
 import org.raguram.todo_application.dto.TaskRequest;
+import org.raguram.todo_application.dto.TaskResponse;
 import org.raguram.todo_application.model.Status;
 import org.raguram.todo_application.model.Task;
-import org.raguram.todo_application.model.User;
+import org.raguram.todo_application.model.UserDetail;
+import org.raguram.todo_application.specification.TaskSpecification;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -23,21 +26,44 @@ public class TaskService {
         this.userRepository = userRepository;
     }
 
-    public Task saveTask(Long userId, TaskRequest taskRequest){
-        User user = userRepository.findById(userId).orElseThrow(()->new RuntimeException("User not found"));
+    public TaskResponse saveTask(Long userId, TaskRequest taskRequest){
+        UserDetail user = userRepository.findById(userId).orElseThrow(()->new RuntimeException("User not found"));
 
         Task task = Task.builder()
                 .title(taskRequest.title())
+                .description(taskRequest.description())
                 .status(Status.PENDING)
                 .createdAt(LocalDateTime.now())
                 .modifiedAt(LocalDateTime.now())
                 .userData(user)
                 .build();
-        return  taskRepository.save(task);
+        Task savedTask = taskRepository.save(task);
+
+        return mapToResponse(savedTask);
     }
 
-    public List<Task> fetchAllTask(long userId) {
-        return taskRepository.findAllByUserId(userId);
+    public List<TaskResponse> fetchAllTask(long userId, Status status, String taskName) {
+        /* Initially  return the task
+        return taskRepository.findAllByUserId(userId)
+                .stream()
+                .map(this::mapToResponse)
+                .toList();*/
+
+        Specification<Task> taskFilter = TaskSpecification.build(userId, status, taskName);
+        return taskRepository.findAll(taskFilter)
+                .stream()
+                .map(this::mapToResponse)
+                .toList();
     }
 
+    private TaskResponse mapToResponse(Task task){
+        return TaskResponse.builder()
+                .taskId(task.getId())
+                .title(task.getTitle())
+                .description(task.getDescription())
+                .status(task.getStatus())
+                .createdAt(task.getCreatedAt())
+                .modifiedAt(task.getModifiedAt())
+                .build();
+    }
 }

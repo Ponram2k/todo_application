@@ -1,7 +1,8 @@
 package org.raguram.todo_application.controller;
 
 import org.raguram.todo_application.dto.TaskRequest;
-import org.raguram.todo_application.model.Task;
+import org.raguram.todo_application.dto.TaskResponse;
+import org.raguram.todo_application.model.Status;
 import org.raguram.todo_application.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,12 +23,14 @@ public class TaskController {
     }
 
     @PostMapping("/{user_id}/task")
-    public ResponseEntity<Task> saveTask(@RequestBody TaskRequest task, @PathVariable("user_id") long userId){
+    public ResponseEntity<TaskResponse> saveTask(@RequestBody TaskRequest task, @PathVariable("user_id") long userId){
         return ResponseEntity.status(HttpStatus.CREATED).body(taskService.saveTask(userId,task));
     }
 
     @GetMapping("/{user_id}/task")
-    public ResponseEntity<List<Task>> fetchAllTask(@PathVariable("user_id") long userId){
-        return ResponseEntity.ok(taskService.fetchAllTask(userId));
+    public ResponseEntity<List<TaskResponse>> fetchAllTask(@PathVariable("user_id") long userId,
+                                                           @RequestParam(name="status", required = false)Status status,
+                                                           @RequestParam(name="taskName", required = false)String taskName){
+        return ResponseEntity.ok(taskService.fetchAllTask(userId,status,taskName));
     }
 }

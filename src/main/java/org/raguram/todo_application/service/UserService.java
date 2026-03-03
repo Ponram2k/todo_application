@@ -1,7 +1,7 @@
 package org.raguram.todo_application.service;
 
 import org.raguram.todo_application.dao.UserRepository;
-import org.raguram.todo_application.model.User;
+import org.raguram.todo_application.model.UserDetail;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +15,7 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public void saveUser(User user){
+    public void saveUser(UserDetail user){
         userRepository.save(user);
     }
 }
