@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+  todo-app:
+    build: .
+    container_name: todo_app_container
+    image: todo_app:V2
+    ports:
+      - "9091:9090"
+    environment:
+      DB_URL: jdbc:postgresql://postgres:5432/todo_db
+      DB_USERNAME: Application
+      DB_PASSWORD: 20190506
+    networks:
+      - s-network
+  postgres:
+      image: postgres:15.17-trixie
+      container_name: postgres_container
+      environment:
+        POSTGRES_USER: Application
+        POSTGRES_PASSWORD: 20190506
+        POSTGRES_DB: todo_db
+      ports:
+        - "5433:5432"
+      volumes:
+        - postgres_data:/var/lib/postgresql/data
+      networks:
+        - s-network
+volumes:
+  postgres_data:
+
+networks:
+  s-network:
+    driver: bridge
